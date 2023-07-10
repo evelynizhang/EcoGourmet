@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ recipe_object.title }}
+{% endblock title %}
+
+{% block content%}
+<header>
+  <div class="nav-bar">
+   <nav class="header">
+     <a class="hearder-details" href="/recipes">Main page</a>
+
+   </nav>
+ </div>
+</header>
+<main>
+  <h1>{{ recipe_object.title }}</h1>
+  <img src="{{ recipe_object.picture }}">
+  <div>4.3 stars</div>
+  <p>{{ recipe_object.description }}</p>
+  <p>{{ recipe_object.created_on|date:"F, j, Y" }}</p>
+  <p>Ingredient</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Food item</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ingredient in recipe_object.ingredients.all %}
+      <tr>
+        <td>{{ ingredient.amount }}</td>
+        <td>{{ ingredient.food_item }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p>Steps</p>
+  <ol>
+    {% for step in recipe_object.steps.all %}
+      <li>{{ step.instruction }}</li>
+    {% endfor %}
+  </ol>
+  {% if recipe_object.author == user %}
+    <a href="{% url "edit_recipe" recipe_object.id %}"><button>Edit</button></a>
+  {% endif %}
+</main>
+{% endblock content %}

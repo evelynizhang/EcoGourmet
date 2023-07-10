@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+ {{ recipe_object.title }} Edit a recipe
+{% endblock title %}
+
+{% block content%}
+<header>
+  <nav class="header">
+    <a class="hearder-details" href="/recipes">Main page</a>
+  </nav>
+</header>
+<main>
+  <h1>Edit {{ post_object.title }}</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ post_form.as_div }}
+      <button>Save</button>
+    </form>
+</main>
+{% endblock content %}

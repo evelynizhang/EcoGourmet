@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %} Scrunptious recipes {% endblock title %}
+
+{% block content%}
+  <header>
+    <nav class="header">
+      <div class="nav-bar">
+        <a class="hearder-details" href="{% url 'recipe_list' %}"> Main page </a>
+        {% comment %} <a class="hearder-details" href="{% url 'edit_recipe' 1 %}">Edit a recipe</a> {% endcomment %}
+        {% if user.is_authenticated %}
+            <a class="hearder-details" href="{% url 'create_recipe' %}"> Create a recipe</a>
+            <a class="hearder-details" href="{% url 'my_recipes' %}">My recipes</a>
+            <a class="hello_user"> Hello, {{ user.username }}</a>
+            <a class="hearder-details" href="{% url "logout" %}">Log out</a>
+        {% else %}
+            <a class="hearder-details" href="{% url "signup" %}">Sign up</a>
+            <a class="hearder-details" href="{% url "login" %}">Log in</a>
+        {% endif %}
+      <div>
+    </nav>
+  </header>
+  <main>
+    <h1>Scrumptious Receipes</h1>
+    <h2>All the food that's fit to eat</h2>
+    <div class="recipe">
+      {% for recipe in recipe_list %}
+      <div class="individual">
+        <h3>
+          <a  class="recipe-name"href="{% url 'show_recipe' recipe.id %}">
+            {{ recipe.title }}
+          </a>
+        </h3>
+        <img src="{{ recipe.picture|default:"https://via.placeholder.com/150" }}" alt="a picture of taco">
+       <div>4.3 stars</div>
+       <p>{{ recipe.created_on|date:"F, j, Y"}}</p>
+      </div>
+      {% empty %}
+        <p>There are no recipes.</p>
+      {% endfor %}
+    </div>
+  </main>
+{% endblock content %}
